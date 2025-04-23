@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+  build:
+    commands:
+      - zip function.zip index.js package.json
+  post_build:
+    commands:
+      - echo "Deploying to Lambda..."
+      - aws lambda update-function-code --function-name newTestLambda --zip-file fileb://function.zip --region eu-north-1
+
+artifacts:
+  files:
+    - function.zip
